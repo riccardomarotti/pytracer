@@ -1,4 +1,5 @@
 import numpy as np
+from numba import jit
 
 
 class Canvas:
@@ -17,11 +18,12 @@ class Canvas:
         ppm_string = "P3\n{} {}\n255\n".format(self.width, self.height)
 
         for row_id in range(self.height):
+            current_line = ""
             colors = self.px[:, row_id]
             colors = colors.flatten()
             clamped_colors = clamp(colors)
-            ppm_string += " ".join(clamped_colors.astype(str))
-            ppm_string += "\n"
+            current_line = " ".join(clamped_colors.astype(str))
+            ppm_string += truncate(current_line) + "\n"
 
         return ppm_string
 
@@ -29,3 +31,14 @@ class Canvas:
 @np.vectorize
 def clamp(color):
     return int(max(0, min(255, color * 255)))
+
+
+def truncate(s):
+    MAX = 70
+    x = len(s)
+    if(x) < MAX:
+        return s
+
+    last_space_index = s[:MAX+1].rfind(' ')
+    if last_space_index != -1:
+        return s[:last_space_index] + "\n" + s[last_space_index+1:]

@@ -41,3 +41,27 @@ def test_constructing_the_PPM_pixel_data():
 """
 
     assert(expectedPPM == c.PPM())
+
+
+def test_splitting_long_lines_in_PPM():
+    pixels = np.ones((10, 2, 3))*[1, 0.8, 0.6]
+    c = Canvas(10, 2, pixels)
+
+    expected = """255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+153 255 204 153 255 204 153 255 204 153 255 204 153
+255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+153 255 204 153 255 204 153 255 204 153 255 204 153"""
+
+    actual = c.PPM()
+
+    assert(len(actual.split("\n")) == 8)
+    actual = "\n".join(actual.split("\n")[3:7])
+
+    assert(expected == actual)
+
+
+def test_PPM_files_are_terminated_by_a_newline():
+    c = Canvas(5, 3)
+    ppm = c.PPM()
+
+    assert(ppm[-1] == '\n')
