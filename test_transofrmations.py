@@ -125,3 +125,30 @@ def test_a_shearing_transformation_moves_z_in_proportion_to_x():
 def test_a_shearing_transformation_moves_z_in_proportion_to_y():
     transform = transformations.shearing(0, 0, 0, 0, 0, 1)
     assert(point(2, 3, 7).all() == transform.dot(point(2, 3, 4)).all())
+
+
+def test_individual_transformations_are_applied_in_sequence():
+    p = point(1, 0, 1)
+    A = transformations.rotation_x(math.pi/2)
+    B = transformations.scaling(5, 5, 5)
+    C = transformations.translation(10, 5, 7)
+
+    p2 = A.dot(p)
+    assert(np.allclose(point(1, -1, 0), p2))
+
+    p3 = B.dot(p2)
+    assert(np.allclose(point(5, -5, 0), p3))
+
+    p4 = C.dot(p3)
+    assert(np.allclose(point(15, 0, 7), p4))
+
+
+def test_chained_transofrmations_must_be_applied_in_reverse_order():
+    p = point(1, 0, 1)
+    A = transformations.rotation_x(math.pi/2)
+    B = transformations.scaling(5, 5, 5)
+    C = transformations.translation(10, 5, 7)
+
+    T = C.dot(B).dot(A)
+
+    assert(np.allclose(point(15, 0, 7), T.dot(p)))
