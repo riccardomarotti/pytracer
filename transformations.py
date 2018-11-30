@@ -8,3 +8,12 @@ def translation(x, y, z):
         [0, 0, 1, z],
         [0, 0, 0, 1]
     ])
+
+
+def scaling(x, y, z):
+    return np.array([
+        [x, 0, 0, 0],
+        [0, y, 0, 0],
+        [0, 0, z, 0],
+        [0, 0, 0, 1]
+    ])
