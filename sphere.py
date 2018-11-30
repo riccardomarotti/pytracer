@@ -1,8 +1,10 @@
 import numpy as np
 import math
 from tuples import point, vector
+from numba import jit
 
 
+@jit
 def intersect(origin, direction):
     sphere_to_ray = origin - point(0, 0, 0)
 
@@ -13,7 +15,7 @@ def intersect(origin, direction):
     delta = b**2 - 4*a*c
 
     if delta < 0:
-        return np.array([])
+        return np.empty((0))
 
     t1 = (-b - math.sqrt(delta)) / (2*a)
     t2 = (-b + math.sqrt(delta)) / (2*a)
