@@ -2,30 +2,21 @@ import numpy as np
 from numba import jit
 
 
-class Canvas:
-    def __init__(self, width, height, pixels=None):
-        self.width = width
-        self.height = height
-        self.px = pixels
+def PPM(width, height, pixels=None):
+    if pixels is None:
+        pixels = np.zeros((width, height, 3))
 
-        if pixels is None:
-            self.px = np.zeros((width, height, 3))
+    ppm_string = "P3\n{} {}\n255\n".format(width, height)
 
-    def pixels(self):
-        return self.px
+    for row_id in range(height):
+        current_line = ""
+        colors = pixels[:, row_id]
+        colors = colors.flatten()
+        clamped_colors = clamp(colors)
+        current_line = " ".join(clamped_colors.astype(str))
+        ppm_string += truncate(current_line) + "\n"
 
-    def PPM(self):
-        ppm_string = "P3\n{} {}\n255\n".format(self.width, self.height)
-
-        for row_id in range(self.height):
-            current_line = ""
-            colors = self.px[:, row_id]
-            colors = colors.flatten()
-            clamped_colors = clamp(colors)
-            current_line = " ".join(clamped_colors.astype(str))
-            ppm_string += truncate(current_line) + "\n"
-
-        return ppm_string
+    return ppm_string
 
 
 @np.vectorize

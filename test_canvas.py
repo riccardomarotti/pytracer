@@ -1,23 +1,14 @@
-from canvas import Canvas
+import canvas
 import numpy as np
 
 
-def test_creating_canvas():
-    c = Canvas(10, 20)
-    expected_pixels = np.zeros((20, 10, 3))
-
-    assert(c.width == 10)
-    assert(c.height == 20)
-    assert(c.pixels().all() == expected_pixels.all())
-
-
 def test_constructing_the_PPM_header():
-    c = Canvas(5, 3)
+    actualPPM = canvas.PPM(5, 3)
 
     expectedPPM = """P3
 5 3
 255"""
-    assert(c.PPM().startswith(expectedPPM))
+    assert(actualPPM.startswith(expectedPPM))
 
 
 def test_constructing_the_PPM_pixel_data():
@@ -30,7 +21,7 @@ def test_constructing_the_PPM_pixel_data():
     pixels[2, 1] = c2
     pixels[4, 2] = c3
 
-    c = Canvas(5, 3, pixels)
+    actualPPM = canvas.PPM(5, 3, pixels)
 
     expectedPPM = """P3
 5 3
@@ -40,28 +31,25 @@ def test_constructing_the_PPM_pixel_data():
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 255
 """
 
-    assert(expectedPPM == c.PPM())
+    assert(expectedPPM == actualPPM)
 
 
 def test_splitting_long_lines_in_PPM():
     pixels = np.ones((10, 2, 3))*[1, 0.8, 0.6]
-    c = Canvas(10, 2, pixels)
+    actualPPM = canvas.PPM(10, 2, pixels)
 
-    expected = """255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
+    expectedPPM = """255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
 153 255 204 153 255 204 153 255 204 153 255 204 153
 255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204
 153 255 204 153 255 204 153 255 204 153 255 204 153"""
 
-    actual = c.PPM()
+    assert(len(actualPPM.split("\n")) == 8)
+    actualPPM = "\n".join(actualPPM.split("\n")[3:7])
 
-    assert(len(actual.split("\n")) == 8)
-    actual = "\n".join(actual.split("\n")[3:7])
-
-    assert(expected == actual)
+    assert(expectedPPM == actualPPM)
 
 
 def test_PPM_files_are_terminated_by_a_newline():
-    c = Canvas(5, 3)
-    ppm = c.PPM()
+    ppm = canvas.PPM(5, 3)
 
     assert(ppm[-1] == '\n')
