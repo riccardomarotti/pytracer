@@ -95,3 +95,33 @@ def test_rotating_a_point_around_the_z_axis():
     assert(point(-math.sqrt(2)/2, math.sqrt(2)/2, 0).all()
            == half_quarter.dot(p).all())
     assert(point(-1, 0, 0).all() == full_quarter.dot(p).all())
+
+
+def test_a_shearing_transformation_moves_x_in_proportion_to_y():
+    transform = transformations.shearing(1, 0, 0, 0, 0, 0)
+    assert(point(5, 3, 4).all() == transform.dot(point(2, 3, 4)).all())
+
+
+def test_a_shearing_transformation_moves_x_in_proportion_to_z():
+    transform = transformations.shearing(0, 1, 0, 0, 0, 0)
+    assert(point(6, 3, 4).all() == transform.dot(point(2, 3, 4)).all())
+
+
+def test_a_shearing_transformation_moves_y_in_proportion_to_x():
+    transform = transformations.shearing(0, 0, 1, 0, 0, 0)
+    assert(point(2, 5, 4).all() == transform.dot(point(2, 3, 4)).all())
+
+
+def test_a_shearing_transformation_moves_y_in_proportion_to_z():
+    transform = transformations.shearing(0, 0, 0, 1, 0, 0)
+    assert(point(2, 7, 4).all() == transform.dot(point(2, 3, 4)).all())
+
+
+def test_a_shearing_transformation_moves_z_in_proportion_to_x():
+    transform = transformations.shearing(0, 0, 0, 0, 1, 0)
+    assert(point(2, 3, 6).all() == transform.dot(point(2, 3, 4)).all())
+
+
+def test_a_shearing_transformation_moves_z_in_proportion_to_y():
+    transform = transformations.shearing(0, 0, 0, 0, 0, 1)
+    assert(point(2, 3, 7).all() == transform.dot(point(2, 3, 4)).all())
