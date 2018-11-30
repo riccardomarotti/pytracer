@@ -2,6 +2,7 @@ import transformations
 from tuples import point, vector
 import numpy as np
 from numpy.linalg import inv
+import math
 
 
 def test_multiplying_by_a_translation_matrix():
@@ -55,3 +56,22 @@ def test_reflection_is_scaling_by_a_negative_value():
     p = point(2, 3, 4)
 
     assert(point(-2, 3, 4).all() == (transform.dot(p)).all())
+
+
+def test_rotating_a_point_around_the_x_axis():
+    p = point(0, 1, 0)
+    half_quarter = transformations.rotation_x(math.pi/4)
+    full_quarter = transformations.rotation_x(math.pi/2)
+
+    assert(point(0, math.sqrt(2)/2, math.sqrt(2)/2).all()
+           == half_quarter.dot(p).all())
+    assert(point(0, 0, 1).all() == full_quarter.dot(p).all())
+
+
+def test_the_inverse_of_an_x_rotation_rotates_in_the_opposite_direction():
+    p = point(0, 1, 0)
+    half_quarter = transformations.rotation_x(math.pi/4)
+    inverse = inv(half_quarter)
+
+    assert(point(0, math.sqrt(2)/2, -math.sqrt(2)/2).all()
+           == inverse.dot(p).all())

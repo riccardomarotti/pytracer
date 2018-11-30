@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 
 def translation(x, y, z):
@@ -15,5 +16,14 @@ def scaling(x, y, z):
         [x, 0, 0, 0],
         [0, y, 0, 0],
         [0, 0, z, 0],
+        [0, 0, 0, 1]
+    ])
+
+
+def rotation_x(alpha):
+    return np.array([
+        [1, 0, 0, 0],
+        [0, math.cos(alpha), -math.sin(alpha), 0],
+        [0, math.sin(alpha), math.cos(alpha), 0],
         [0, 0, 0, 1]
     ])
