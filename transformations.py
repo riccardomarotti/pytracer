@@ -27,3 +27,21 @@ def rotation_x(alpha):
         [0, math.sin(alpha), math.cos(alpha), 0],
         [0, 0, 0, 1]
     ])
+
+
+def rotation_y(alpha):
+    return np.array([
+        [math.cos(alpha), 0, math.sin(alpha), 0],
+        [0, 1, 0, 0],
+        [-math.sin(alpha), 0, math.cos(alpha), 0],
+        [0, 0, 0, 1]
+    ])
+
+
+def rotation_z(alpha):
+    return np.array([
+        [math.cos(alpha), -math.sin(alpha), 0, 0],
+        [math.sin(alpha), math.cos(alpha), 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])
