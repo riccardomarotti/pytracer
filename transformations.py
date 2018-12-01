@@ -2,7 +2,7 @@ import numpy as np
 import math
 
 
-def identity():
+def identity(x=None):
     return np.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0],

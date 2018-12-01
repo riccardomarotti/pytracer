@@ -1,4 +1,6 @@
 import sphere
+import transformations
+import rays
 from tuples import point, vector
 
 
@@ -53,3 +55,23 @@ def test_a_sphere_behind_a_ary():
     assert(len(xs) == 2)
     assert(xs[0] == -6.0)
     assert(xs[1] == -4.0)
+
+
+def test_intersecting_a_scaled_sphere_with_a_ray():
+    sphere_transform = transformations.scaling(2,2,2)
+    ray_origin = point(0,0,-5)
+    ray_direction = vector(0,0,1)
+
+    xs = sphere.intersect(ray_origin, ray_direction, sphere_transform)
+
+    assert(xs[0] == 3)
+    assert(xs[1] == 7)
+
+def test_intersecting_a_translated_sphere_with_a_ray():
+    sphere_transform = transformations.translation(5,0,0)
+    ray_origin = point(0,0,-5)
+    ray_direction = vector(0,0,1)
+
+    xs = sphere.intersect(ray_origin, ray_direction, sphere_transform)
+
+    assert(len(xs) == 0)

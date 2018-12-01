@@ -1,11 +1,16 @@
 import numpy as np
 import math
 from tuples import point, vector
+from transformations import identity
+from transformations import invert
+import rays
 from numba import jit
 
 
 @jit
-def intersect(origin, direction):
+def intersect(origin, direction, transformation=identity):
+    transformation = invert(transformation)
+    origin, direction = rays.apply(transformation, origin, direction)
     sphere_to_ray = origin - point(0, 0, 0)
 
     a = direction.dot(direction)
