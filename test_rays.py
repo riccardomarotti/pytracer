@@ -12,3 +12,25 @@ def test_computing_a_point_from_a_distance():
     assert(point(1, 3, 4).all() == rays.position(origin, direction, -1).all())
     assert(point(4.5, 3, 4).all() == rays.position(
         origin, direction, 2.5).all())
+
+
+def test_translating_a_ray():
+    origin = point(1, 2, 3)
+    direction = vector(0, 1, 0)
+
+    m = rays.translation(3, 4, 5)
+    translated_origin, translated_direction = m(origin, direction)
+
+    assert(np.allclose(point(4,6,8), translated_origin))
+    assert(np.allclose(vector(0, 1, 0), translated_direction))
+
+
+def test_scaling_a_ray():
+    origin = point(1, 2, 3)
+    direction = vector(0, 1, 0)
+
+    m = rays.scaling(2, 3, 4)
+    scaled_origin, scaled_direction = m(origin, direction)
+
+    assert(np.allclose(point(2, 6, 12), scaled_origin))
+    assert(np.allclose(vector(0, 3, 0), scaled_direction))
