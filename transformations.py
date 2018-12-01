@@ -11,6 +11,10 @@ def identity(x=None):
     ])
 
 
+def concat(t1, t2):
+    return lambda p: t1(t2(p))
+
+
 def translation(x, y, z):
     T = np.array([
         [1, 0, 0, x],
@@ -75,3 +79,9 @@ def invert(t):
     T = t(identity())
     Tinv = np.linalg.inv(T)
     return lambda p: Tinv.dot(p)
+
+
+def transpose(t):
+    T = t(identity())
+    Tt = np.transpose(T)
+    return lambda p: Tt.dot(p)
