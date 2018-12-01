@@ -1,11 +1,13 @@
 import numpy as np
 import math
-from tuples import point, vector
+from tuples import point, vector, normalize
 from transformations import identity
 from transformations import invert
 import rays
 from numba import jit
 
+def normal_at(p):
+    return normalize(p - point(0,0,0))
 
 def intersect(origin, direction, transformation=identity):
     transformation = invert(transformation)

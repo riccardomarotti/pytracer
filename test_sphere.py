@@ -1,6 +1,8 @@
 import sphere
+import tuples
 import transformations
 import rays
+import math
 from tuples import point, vector
 
 
@@ -75,3 +77,35 @@ def test_intersecting_a_translated_sphere_with_a_ray():
     xs = sphere.intersect(ray_origin, ray_direction, sphere_transform)
 
     assert(len(xs) == 0)
+
+
+def test_normal_on_a_sphere_at_a_point_on_the_x_axis():
+    n = sphere.normal_at(point(1,0,0))
+
+    assert(vector(1,0,0).all() == n.all())
+
+
+def test_normal_on_a_sphere_at_a_point_on_the_y_axis():
+    n = sphere.normal_at(point(0,1,0))
+
+    assert(vector(0,1,0).all() == n.all())
+
+
+def test_normal_on_a_sphere_at_a_point_on_the_z_axis():
+    n = sphere.normal_at(point(0,0,1))
+
+    assert(vector(0,0,1).all() == n.all())
+
+
+def test_normal_on_a_sphere_at_a_non_axial_point():
+    p = math.sqrt(3)/3
+    n = sphere.normal_at(point(p,p,p))
+
+    assert(vector(p,p,p).all() == n.all())
+
+
+def test_the_normal_is_a_normalized_vector():
+    p = math.sqrt(3)/3
+    n = sphere.normal_at(point(p,p,p))
+
+    assert(tuples.normalize(n).all() == n.all())
