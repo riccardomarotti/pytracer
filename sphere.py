@@ -7,10 +7,14 @@ import rays
 from numba import jit
 
 
-@jit
 def intersect(origin, direction, transformation=identity):
     transformation = invert(transformation)
     origin, direction = rays.apply(transformation, origin, direction)
+    return intersect_fast(origin, direction)
+
+
+@jit
+def intersect_fast(origin, direction):
     sphere_to_ray = origin - point(0, 0, 0)
 
     a = direction.dot(direction)
