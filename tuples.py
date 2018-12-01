@@ -10,3 +10,8 @@ def point(x, y, z):
 @jit
 def vector(x, y, z):
     return np.array([x, y, z, 0.0])
+
+
+@jit
+def normalize(v):
+    return v / np.linalg.norm(v)
