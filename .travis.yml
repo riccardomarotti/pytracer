@@ -7,3 +7,5 @@ script:
   - py.test --cov=. --doctest-modules -v --cov coveralls --cov-report term-missing
 after_success:
   - coveralls
+env:
+  - NUMBA_DISABLE_JIT=1
