@@ -1,6 +1,6 @@
-from tuples import point, vector
-import transformations
-import rays
+from pytracer.tuples import point, vector
+import pytracer.transformations as transformations
+import pytracer.rays as rays
 import numpy as np
 
 

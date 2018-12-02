@@ -1,4 +1,4 @@
-import canvas
+from pytracer import canvas
 import numpy as np
 
 

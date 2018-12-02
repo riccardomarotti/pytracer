@@ -1,5 +1,5 @@
-import tuples
-from tuples import vector, point, reflect
+from pytracer import tuples
+from pytracer.tuples import vector, point, reflect
 import numpy as np
 import math
 

@@ -1,4 +1,4 @@
-import intersections
+from pytracer import intersections
 import numpy as np
 
 

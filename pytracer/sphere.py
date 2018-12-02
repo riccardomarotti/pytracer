@@ -1,10 +1,10 @@
 import numpy as np
 import math
-from tuples import point, vector, normalize
-from transformations import identity
-from transformations import invert
-from transformations import transpose
-import rays
+from pytracer.tuples import point, vector, normalize
+from pytracer.transformations import identity
+from pytracer.transformations import invert
+from pytracer.transformations import transpose
+import pytracer.rays as rays
 from numba import jit
 
 

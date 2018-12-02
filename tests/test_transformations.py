@@ -1,6 +1,6 @@
-import transformations
-from transformations import identity
-from tuples import point, vector
+from pytracer import transformations
+from pytracer.transformations import identity
+from pytracer.tuples import point, vector
 import numpy as np
 from numpy.linalg import inv
 import math

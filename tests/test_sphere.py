@@ -1,9 +1,9 @@
-import sphere
-import tuples
-import transformations
-import rays
+from pytracer import sphere
+from pytracer import tuples
+from pytracer import transformations
+from pytracer import rays
 import math
-from tuples import point, vector
+from pytracer.tuples import point, vector
 import numpy as np
 
 
