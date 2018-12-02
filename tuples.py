@@ -15,3 +15,8 @@ def vector(x, y, z):
 @jit
 def normalize(v):
     return v / np.linalg.norm(v)
+
+
+@jit
+def reflect(i, normal):
+    return i - normal * 2 * i.dot(normal)

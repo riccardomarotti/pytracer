@@ -9,5 +9,3 @@ def position(origin, direction, distance):
 
 def apply(transform, origin, direction):
     return transform(origin), transform(direction)
-
-
