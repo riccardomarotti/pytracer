@@ -150,6 +150,6 @@ def test_chained_transofrmations_must_be_applied_in_reverse_order():
     B = transformations.scaling(5, 5, 5)
     C = transformations.translation(10, 5, 7)
 
-    p_transformed = C(B(A(p)))
+    CBA = transformations.concat(C, B, A)
 
-    assert(np.allclose(point(15, 0, 7), p_transformed))
+    assert(np.allclose(point(15, 0, 7), CBA(p)))

@@ -11,8 +11,13 @@ def identity(x=None):
     ])
 
 
-def concat(t1, t2):
-    return lambda p: t1(t2(p))
+def concat(t1, *tn):
+    if len(tn) == 0:
+        return t1
+
+    t2 = tn[0]
+    rest = tn[1:]
+    return concat(lambda p: t1(t2(p)), *rest)
 
 
 def translation(x, y, z):
