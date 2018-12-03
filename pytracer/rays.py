@@ -2,26 +2,26 @@ import numpy as np
 from numba import jit
 
 
-def create(origin, direction):
-    return np.array([origin, direction])
+class Ray:
+    def __init__(self, origin, direction):
+        self._origin = origin
+        self._direction = direction
 
+    @property
+    def origin(self):
+        return self._origin
 
-def origin(ray):
-    return ray[0]
+    @property
+    def direction(self):
+        return self._direction
 
+    def position(self, distance):
+        return position_fast(self.origin, self.direction, distance)
 
-def direction(ray):
-    return ray[1]
-
-
-def position(ray, distance):
-    return position_fast(origin(ray), direction(ray), distance)
+    def transform(self, transform):
+        return Ray(transform(self.origin), transform(self.direction))
 
 
 @jit
 def position_fast(origin, direction, distance):
     return origin + direction*distance
-
-
-def apply(transform, origin, direction):
-    return transform(origin), transform(direction)

@@ -4,39 +4,40 @@ from pytracer.tuples import point, vector, normalize
 from pytracer.transformations import identity_matrix
 from pytracer.transformations import invert
 from pytracer.transformations import transpose
-import pytracer.materials
-import pytracer.rays as rays
+import pytracer.materials as materials
+
 from numba import jit
 
 
-def sphere(transformation=identity_matrix, material=None):
-    if material is None:
-        material = pytracer.materials.material()
+class Sphere:
+    def __init__(self, transformation=identity_matrix, material=None):
+        if material is None:
+            self._material = materials.material()
+        else:
+            self._material = material
 
-    return [transformation, material]
+        self._transformation = transformation
 
+    @property
+    def transformation(self):
+        return self._transformation
 
-def transformation(sphere):
-    return sphere[0]
+    @property
+    def material(self):
+        return self._material
 
+    def normal_at(self, p):
+        transformation = invert(self.transformation)
+        object_point = transformation(p)
+        object_normal = object_point - point(0, 0, 0)
+        world_normal = transpose(transformation)(object_normal)
+        world_normal[3] = 0
+        return normalize(world_normal)
 
-def material(sphere):
-    return sphere[1]
-
-
-def normal_at(p, transform=identity_matrix):
-    transform = invert(transform)
-    object_point = transform(p)
-    object_normal = object_point - point(0, 0, 0)
-    world_normal = transpose(transform)(object_normal)
-    world_normal[3] = 0
-    return normalize(world_normal)
-
-
-def intersect(origin, direction, transformation=identity_matrix):
-    transformation = invert(transformation)
-    origin, direction = rays.apply(transformation, origin, direction)
-    return intersect_fast(origin, direction)
+    def intersect(self, ray):
+        transformation = invert(self.transformation)
+        transformed_ray = ray.transform(transformation)
+        return intersect_fast(transformed_ray.origin, transformed_ray.direction)
 
 
 @jit
