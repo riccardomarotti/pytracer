@@ -20,16 +20,16 @@ def test_a_ray_intersects_a_sphere_at_two_points():
     xs = Sphere().intersect(Ray(point(0, 0, -5), vector(0, 0, 1)))
 
     assert(len(xs) == 2)
-    assert(xs[0] == 4.0)
-    assert(xs[1] == 6.0)
+    assert(xs[0].t == 4.0)
+    assert(xs[1].t == 6.0)
 
 
 def test_a_ray_intersects_a_sphere_at_a_tangent():
     xs = Sphere().intersect(Ray(point(0, 1, -5), vector(0, 0, 1)))
 
     assert(len(xs) == 2)
-    assert(xs[0] == 5.0)
-    assert(xs[1] == 5.0)
+    assert(xs[0].t == 5.0)
+    assert(xs[1].t == 5.0)
 
 
 def test_a_ray_misses_a_sphere():
@@ -42,16 +42,16 @@ def test_a_ray_originates_inside_a_sphere():
     xs = Sphere().intersect(Ray(point(0, 0, 0), vector(0, 0, 1)))
 
     assert(len(xs) == 2)
-    assert(xs[0] == -1.0)
-    assert(xs[1] == 1.0)
+    assert(xs[0].t == -1.0)
+    assert(xs[1].t == 1.0)
 
 
 def test_a_sphere_behind_a_ary():
     xs = Sphere().intersect(Ray(point(0, 0, 5), vector(0, 0, 1)))
 
     assert(len(xs) == 2)
-    assert(xs[0] == -6.0)
-    assert(xs[1] == -4.0)
+    assert(xs[0].t == -6.0)
+    assert(xs[1].t == -4.0)
 
 
 def test_intersecting_a_scaled_sphere_with_a_ray():
@@ -60,8 +60,8 @@ def test_intersecting_a_scaled_sphere_with_a_ray():
 
     xs = sphere.intersect(ray)
 
-    assert(xs[0] == 3)
-    assert(xs[1] == 7)
+    assert(xs[0].t == 3)
+    assert(xs[1].t == 7)
 
 
 def test_intersecting_a_translated_sphere_with_a_ray():

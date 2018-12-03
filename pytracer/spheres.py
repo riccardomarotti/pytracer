@@ -5,6 +5,7 @@ from pytracer.transformations import identity_matrix
 from pytracer.transformations import invert
 from pytracer.transformations import transpose
 from pytracer.materials import Material
+from pytracer.intersections import Intersection, Intersections
 
 from numba import jit
 
@@ -37,7 +38,12 @@ class Sphere:
     def intersect(self, ray):
         transformation = invert(self.transformation)
         transformed_ray = ray.transform(transformation)
-        return intersect_fast(transformed_ray.origin, transformed_ray.direction)
+        ts = intersect_fast(transformed_ray.origin, transformed_ray.direction)
+        if len(ts) == 2:
+            i1 = Intersection(ts[0], self)
+            i2 = Intersection(ts[1], self)
+            return Intersections(i1, i2)
+        return []
 
 
 @jit
