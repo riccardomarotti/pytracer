@@ -51,9 +51,8 @@ def test_constructing_a_ray_when_the_camera_is_transformed():
                transform=concat(rotation_y(math.pi/4), translation(0, -2, 5)))
     r = c.ray_for_pixel(100, 50)
 
-    assert(np.array_equal(point(0, 2, -5), r.origin))
-    assert(np.allclose(vector(math.sqrt(2)/2, 0, -
-                              math.sqrt(2)/2), r.direction, atol=0.00001))
+    assert(np.allclose(point(0, 2, -5), r.origin))
+    assert(np.allclose(vector(math.sqrt(2)/2, 0, -math.sqrt(2)/2), r.direction))
 
 
 def test_rendering_a_world_with_a_camera():
