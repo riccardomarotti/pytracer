@@ -2,9 +2,18 @@ from pytracer import spheres
 from pytracer import tuples
 from pytracer import transformations
 from pytracer import rays
+from pytracer import materials as materials
 import math
 from pytracer.tuples import point, vector
 import numpy as np
+
+
+def test_identity_is_a_sphere_default_transformation():
+    sphere = spheres.sphere()
+    expected_transformation = transformations.identity_matrix
+    actual_transformation = spheres.transformation(sphere)
+
+    assert(np.array_equal(expected_transformation(), actual_transformation()))
 
 
 def test_a_ray_intersects_a_sphere_at_two_points():
@@ -127,3 +136,20 @@ def test_computing_the_normal_on_a_transformed_sphere():
 
     n = spheres.normal_at(point(0, math.sqrt(2)/2, -math.sqrt(2)/2), transform)
     assert(np.allclose(vector(0, 0.97014, -0.242535), n))
+
+
+def test_a_sphere_has_a_material():
+    s = spheres.sphere()
+    expected_material = materials.material()
+    actual_material = spheres.material(s)
+
+    assert(np.array_equal(expected_material, actual_material))
+
+
+def test_a_sphere_may_be_asigned_a_material():
+    m = materials.material(ambient=1)
+
+    s = spheres.sphere(material=m)
+    actual_material = spheres.material(s)
+
+    assert(np.array_equal(m, actual_material))

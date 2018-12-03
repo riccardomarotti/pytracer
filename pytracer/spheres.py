@@ -4,8 +4,24 @@ from pytracer.tuples import point, vector, normalize
 from pytracer.transformations import identity_matrix
 from pytracer.transformations import invert
 from pytracer.transformations import transpose
+import pytracer.materials
 import pytracer.rays as rays
 from numba import jit
+
+
+def sphere(transformation=identity_matrix, material=None):
+    if material is None:
+        material = pytracer.materials.material()
+
+    return [transformation, material]
+
+
+def transformation(sphere):
+    return sphere[0]
+
+
+def material(sphere):
+    return sphere[1]
 
 
 def normal_at(p, transform=identity_matrix):
