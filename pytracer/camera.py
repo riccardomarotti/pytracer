@@ -1,4 +1,6 @@
-from pytracer.transformations import identity_matrix
+from pytracer.transformations import identity_matrix, invert
+from pytracer.tuples import point, normalize
+from pytracer.rays import Ray
 import math
 
 
@@ -27,3 +29,17 @@ class Camera:
     @property
     def pixel_size(self):
         return self._pixel_size
+
+    def ray_for_pixel(self, px, py):
+        xoffset = (px+0.5) * self.pixel_size
+        yoffset = (py+0.5) * self.pixel_size
+
+        world_x = self._half_width - xoffset
+        world_y = self._half_height - yoffset
+
+        inverse_camera_transform = invert(self._transform)
+        pixel = inverse_camera_transform(point(world_x, world_y, -1))
+        origin = inverse_camera_transform(point(0, 0, 0))
+        direction = normalize(pixel - origin)
+
+        return Ray(origin, direction)

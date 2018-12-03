@@ -1,7 +1,8 @@
 import math
 import numpy as np
 from pytracer.camera import Camera
-from pytracer.transformations import identity_matrix
+from pytracer.transformations import identity_matrix, rotation_y, translation, concat
+from pytracer.tuples import point, vector
 
 
 def test_constructing_a_camera():
@@ -25,3 +26,28 @@ def test_the_pixel_size_for_a_horizontal_canvas():
 def test_the_pixel_size_for_a_vertical_canvas():
     c = Camera(125, 200, math.pi/2)
     assert(math.isclose(c.pixel_size, 0.01))
+
+
+def test_constructing_a_ray_through_the_center_of_the_canvas():
+    c = Camera(201, 101, math.pi/2)
+    r = c.ray_for_pixel(100, 50)
+
+    assert(np.array_equal(point(0, 0, 0), r.origin))
+    assert(np.allclose(vector(0, 0, -1), r.direction))
+
+
+def test_constructing_a_ray_through_the_corner_of_the_canvas():
+    c = Camera(201, 101, math.pi/2)
+    r = c.ray_for_pixel(0, 0)
+
+    assert(np.array_equal(point(0, 0, 0), r.origin))
+    assert(np.allclose(vector(0.66519, 0.33259, -0.66851), r.direction))
+
+
+def test_constructing_a_ray_when_the_camera_is_transformed():
+    c = Camera(201, 101, math.pi/2,
+               transform=concat(rotation_y(math.pi/4), translation(0, -2, 5)))
+    r = c.ray_for_pixel(100, 50)
+
+    assert(np.array_equal(point(0, 2, -5), r.origin))
+    assert(np.allclose(vector(math.sqrt(2)/2, 0, -math.sqrt(2)/2), r.direction))
