@@ -50,6 +50,11 @@ class Computations:
         self._point = ray.position(self._t)
         self._eyev = -ray.direction
         self._normalv = self._object.normal_at(self._point)
+        if self.normalv.dot(self.eyev) < 0:
+            self._inside = True
+            self._normalv = -self.normalv
+        else:
+            self._inside = False
 
     @property
     def t(self):
@@ -70,6 +75,10 @@ class Computations:
     @property
     def normalv(self):
         return self._normalv
+
+    @property
+    def inside(self):
+        return self._inside
 
 
 @jit(['float32(float32)'])

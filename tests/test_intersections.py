@@ -101,3 +101,26 @@ def test_precompute_the_state_of_an_intersection():
     assert(np.array_equal(point(0, 0, -1), comps.point))
     assert(np.array_equal(vector(0, 0, -1), comps.eyev))
     assert(np.array_equal(vector(0, 0, -1), comps.normalv))
+
+
+def test_the_hit_when_an_intersection_occurs_on_the_outside():
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(4, shape)
+
+    comps = i.prepare_computations(r)
+
+    assert(comps.inside == False)
+
+
+def test_the_hit_when_an_intersection_occurs_on_the_inside():
+    r = Ray(point(0, 0, 0), vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(1, shape)
+
+    comps = i.prepare_computations(r)
+
+    assert(np.array_equal(point(0, 0, 1), comps.point))
+    assert(np.array_equal(vector(0, 0, -1), comps.eyev))
+    assert(comps.inside == True)
+    assert(np.array_equal(vector(0, 0, -1), comps.normalv))
