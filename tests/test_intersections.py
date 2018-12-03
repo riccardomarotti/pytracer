@@ -2,6 +2,14 @@ from pytracer import intersections
 import numpy as np
 
 
+def test_hit_is_empty_when_input_is_empty():
+    xs = np.array([])
+
+    i = intersections.hit(xs)
+
+    assert(len(i) == 0)
+
+
 def test_hit_when_all_intersections_have_positive_t():
     xs = np.array([1.0, 2.0])
 
