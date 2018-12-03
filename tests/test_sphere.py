@@ -2,7 +2,7 @@ from pytracer.spheres import Sphere
 from pytracer import tuples
 from pytracer import transformations
 from pytracer.rays import Ray
-from pytracer import materials as materials
+from pytracer.materials import Material
 import math
 from pytracer.tuples import point, vector
 import numpy as np
@@ -124,15 +124,15 @@ def test_computing_the_normal_on_a_transformed_sphere():
 
 
 def test_a_sphere_has_a_material():
-    s = Sphere()
-    expected_material = materials.material()
+    expected_material = Material()
+    s = Sphere(material=expected_material)
     actual_material = s.material
 
-    assert(np.array_equal(expected_material, actual_material))
+    assert(expected_material is actual_material)
 
 
 def test_a_sphere_may_be_asigned_a_material():
-    m = materials.material(ambient=1)
+    m = Material(ambient=1)
 
     s = Sphere(material=m)
     actual_material = s.material

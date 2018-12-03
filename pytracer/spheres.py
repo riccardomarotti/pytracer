@@ -4,7 +4,7 @@ from pytracer.tuples import point, vector, normalize
 from pytracer.transformations import identity_matrix
 from pytracer.transformations import invert
 from pytracer.transformations import transpose
-import pytracer.materials as materials
+from pytracer.materials import Material
 
 from numba import jit
 
@@ -12,7 +12,7 @@ from numba import jit
 class Sphere:
     def __init__(self, transformation=identity_matrix, material=None):
         if material is None:
-            self._material = materials.material()
+            self._material = Material()
         else:
             self._material = material
 
