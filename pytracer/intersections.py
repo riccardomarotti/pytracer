@@ -39,6 +39,7 @@ class Intersections:
         for intersection in self._intersections:
             if intersection.t >= 0 and intersection.t < min:
                 hit_intersection = intersection
+                min = intersection.t
 
         return hit_intersection
 
@@ -50,11 +51,9 @@ class Computations:
         self._point = ray.position(self._t)
         self._eyev = -ray.direction
         self._normalv = self._object.normal_at(self._point)
-        if self.normalv.dot(self.eyev) < 0:
-            self._inside = True
+        self._inside = self.normalv.dot(self.eyev) < 0
+        if self.inside:
             self._normalv = -self.normalv
-        else:
-            self._inside = False
 
     @property
     def t(self):

@@ -3,12 +3,16 @@ import math
 import pytracer.lights as lights
 from pytracer.tuples import normalize as normalize
 from pytracer.tuples import reflect as reflect
-import pytracer.colors as colors
+from pytracer.colors import black, white
 
 
 class Material:
-    def __init__(self, color=[1, 1, 1], ambient=0.1, diffuse=0.9, specular=0.9, shininess=200):
-        self._color = color
+    def __init__(self, color=None, ambient=0.1, diffuse=0.9, specular=0.9, shininess=200):
+        if color is None:
+            self._color = white
+        else:
+            self._color = color
+
         self._ambient = ambient
         self._diffuse = diffuse
         self._specular = specular
@@ -39,9 +43,9 @@ class Material:
         light_vector = normalize(light.position - point)
         amb = effective_color * self.ambient
         light_dot_normal = light_vector.dot(normal_vector)
-        diff = colors.black()
-        spec = colors.black()
-        if light_dot_normal > 0:
+        diff = black
+        spec = black
+        if light_dot_normal >= 0:
             diff = effective_color * self.diffuse * light_dot_normal
 
             reflect_vector = reflect(-light_vector, normal_vector)
