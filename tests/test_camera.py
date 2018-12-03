@@ -1,8 +1,10 @@
 import math
 import numpy as np
 from pytracer.camera import Camera
-from pytracer.transformations import identity_matrix, rotation_y, translation, concat
+from pytracer.transformations import identity_matrix, rotation_y, translation, concat, view_transformation
 from pytracer.tuples import point, vector
+from pytracer.world import default_world
+from pytracer.colors import color
 
 
 def test_constructing_a_camera():
@@ -51,3 +53,16 @@ def test_constructing_a_ray_when_the_camera_is_transformed():
 
     assert(np.array_equal(point(0, 2, -5), r.origin))
     assert(np.allclose(vector(math.sqrt(2)/2, 0, -math.sqrt(2)/2), r.direction))
+
+
+def test_rendering_a_world_with_a_camera():
+    w = default_world()
+    from_ = point(0, 0, -5)
+    to = point(0, 0, 0)
+    up = vector(0, 1, 0)
+    c = Camera(11, 11, math.pi/2, transform=view_transformation(from_, to, up))
+
+    image = c.render(w)
+
+    assert(np.allclose(image.pixel_at(5, 5), color(
+        0.38066, 0.47583, 0.2855), atol=0.00001))

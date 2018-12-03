@@ -1,6 +1,7 @@
 from pytracer.transformations import identity_matrix, invert
 from pytracer.tuples import point, normalize
 from pytracer.rays import Ray
+from pytracer.canvas import Canvas
 import math
 
 
@@ -43,3 +44,14 @@ class Camera:
         direction = normalize(pixel - origin)
 
         return Ray(origin, direction)
+
+    def render(self, world):
+        image = Canvas(self._hsize, self._vsize)
+
+        for y in range(self._vsize):
+            for x in range(self._hsize):
+                ray = self.ray_for_pixel(x, y)
+                color = world.color_at(ray)
+                image.write_pixel(x, y, color)
+
+        return image

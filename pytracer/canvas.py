@@ -26,6 +26,9 @@ class Canvas:
     def write_pixel(self, x, y, color):
         self.pixels[x, y] = color
 
+    def pixel_at(self, x, y):
+        return self.pixels[x, y]
+
     def to_PPM(self):
         ppm_string = "P3\n{} {}\n255\n".format(self.width, self.height)
 
