@@ -15,7 +15,7 @@ def test_hit_when_all_intersections_have_positive_t():
 
     i = intersections.hit(xs)
 
-    assert(i.all() == xs[0].all())
+    assert((i == xs[0]).all())
 
 
 def test_hit_when_some_intersections_have_negative_t():
@@ -39,4 +39,4 @@ def test_hit_is_always_the_lowest_non_negative_intersection():
 
     i = intersections.hit(xs)
 
-    assert(i.all() == xs[3].all())
+    assert((i == xs[3]).all())

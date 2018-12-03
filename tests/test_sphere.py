@@ -93,33 +93,33 @@ def test_intersecting_a_translated_sphere_with_a_ray():
 def test_normal_on_a_sphere_at_a_point_on_the_x_axis():
     n = spheres.normal_at(point(1, 0, 0))
 
-    assert(vector(1, 0, 0).all() == n.all())
+    assert((vector(1, 0, 0) == n).all())
 
 
 def test_normal_on_a_sphere_at_a_point_on_the_y_axis():
     n = spheres.normal_at(point(0, 1, 0))
 
-    assert(vector(0, 1, 0).all() == n.all())
+    assert((vector(0, 1, 0) == n).all())
 
 
 def test_normal_on_a_sphere_at_a_point_on_the_z_axis():
     n = spheres.normal_at(point(0, 0, 1))
 
-    assert(vector(0, 0, 1).all() == n.all())
+    assert((vector(0, 0, 1) == n).all())
 
 
 def test_normal_on_a_sphere_at_a_non_axial_point():
     p = math.sqrt(3)/3
     n = spheres.normal_at(point(p, p, p))
 
-    assert(vector(p, p, p).all() == n.all())
+    assert(np.allclose(vector(p, p, p), n))
 
 
 def test_the_normal_is_a_normalized_vector():
     p = math.sqrt(3)/3
     n = spheres.normal_at(point(p, p, p))
 
-    assert(tuples.normalize(n).all() == n.all())
+    assert(np.allclose(tuples.normalize(n), n))
 
 
 def test_computing_the_normal_on_a_translated_sphere():
