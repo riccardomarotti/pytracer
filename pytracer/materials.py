@@ -35,19 +35,16 @@ def lighting(material, light, point, eye_vector, normal_vector):
     light_vector = normalize(lights.position(light) - point)
     amb = effective_color * ambient(material)
     light_dot_normal = light_vector.dot(normal_vector)
-    if light_dot_normal < 0:
-        diff = colors.black()
-        spec = colors.black()
-    else:
+    diff = colors.black()
+    spec = colors.black()
+    if light_dot_normal > 0:
         diff = effective_color * \
             diffuse(material) * light_dot_normal
 
         reflect_vector = reflect(-light_vector, normal_vector)
         reflect_dot_eye = reflect_vector.dot(eye_vector)
 
-        if reflect_dot_eye <= 0:
-            spec = colors.black()
-        else:
+        if reflect_dot_eye > 0:
             factor = math.pow(reflect_dot_eye, shininess(material))
             spec = lights.intensity(
                 light) * specular(material) * factor
