@@ -1,5 +1,5 @@
 from pytracer import transformations
-from pytracer.transformations import identity_matrix
+from pytracer.transformations import identity_matrix, view_transformation, scaling, translation
 from pytracer.tuples import point, vector
 import numpy as np
 from numpy.linalg import inv
@@ -149,3 +149,62 @@ def test_chained_transofrmations_must_be_applied_in_reverse_order():
     CBA = transformations.concat(C, B, A)
 
     assert(np.allclose(point(15, 0, 7), CBA(p)))
+
+
+def test_the_view_transformation_matrix_for_the_default_orientation():
+    from_ = point(0, 0, 0)
+    to = point(0, 0, -1)
+    up = vector(0, 1, 0)
+
+    t = view_transformation(from_, to, up)
+
+    actual_transform_matrix = t(identity_matrix())
+    expected_transform_matrix = identity_matrix()
+
+    assert(np.allclose(actual_transform_matrix, expected_transform_matrix))
+
+
+def test_a_transformation_matrix_looking_in_positive_z_direction():
+    from_ = point(0, 0, 0)
+    to = point(0, 0, 1)
+    up = vector(0, 1, 0)
+
+    t = view_transformation(from_, to, up)
+
+    actual_transform_matrix = t(identity_matrix())
+    expected_transform_matrix = scaling(-1, 1, -1)(identity_matrix())
+
+    assert(np.allclose(actual_transform_matrix, expected_transform_matrix))
+
+
+def test_the_view_transformation_moves_the_world():
+    from_ = point(0, 0, 8)
+    to = point(0, 0, 0)
+    up = vector(0, 1, 0)
+
+    t = view_transformation(from_, to, up)
+
+    actual_transform_matrix = t(identity_matrix())
+    expected_transform_matrix = translation(0, 0, -8)(identity_matrix())
+
+    assert(np.allclose(actual_transform_matrix, expected_transform_matrix))
+
+
+def test_an_arbitrary_view_transformation():
+    from_ = point(1, 3, 2)
+    to = point(4, -2, 8)
+    up = vector(1, 1, 0)
+
+    view_transform = view_transformation(from_, to, up)
+
+    actual_transform_matrix = view_transform(identity_matrix())
+    expected_transform_matrix = np.array([
+        [-0.50709, 0.50709, 0.67612, -2.36643],
+        [0.76772, 0.60609, 0.12122, -2.82843],
+        [-0.35857, 0.59761, -0.71714, 0],
+        [0, 0, 0, 1],
+    ])
+
+    # assert(actual_transform_matrix[0][0] == expected_transform_matrix[0][0])
+    assert(np.allclose(actual_transform_matrix,
+                       expected_transform_matrix, atol=0.0001))

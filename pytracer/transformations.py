@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from pytracer.tuples import normalize
 
 
 def identity_matrix(x=None):
@@ -90,3 +91,19 @@ def transpose(t):
     T = t(identity_matrix())
     Tt = np.transpose(T)
     return lambda p: Tt.dot(p)
+
+
+def view_transformation(from_, to, up):
+    forward = normalize(to - from_)[:3]
+    left = np.cross(forward, normalize(up)[:3])
+    true_up = np.cross(left, forward)
+
+    orientation = np.array([
+        [left[0], left[1], left[2], 0],
+        [true_up[0], true_up[1], true_up[2], 0],
+        [-forward[0], -forward[1], -forward[2], 0],
+        [0, 0, 0, 1]
+    ])
+    t = translation(-from_[0], -from_[1], -from_[2])(identity_matrix())
+
+    return lambda p: orientation.dot(t).dot(p)
