@@ -1,14 +1,14 @@
 import numpy as np
 import math
 from pytracer.tuples import point, vector, normalize
-from pytracer.transformations import identity
+from pytracer.transformations import identity_matrix
 from pytracer.transformations import invert
 from pytracer.transformations import transpose
 import pytracer.rays as rays
 from numba import jit
 
 
-def normal_at(p, transform=identity):
+def normal_at(p, transform=identity_matrix):
     transform = invert(transform)
     object_point = transform(p)
     object_normal = object_point - point(0, 0, 0)
@@ -17,7 +17,7 @@ def normal_at(p, transform=identity):
     return normalize(world_normal)
 
 
-def intersect(origin, direction, transformation=identity):
+def intersect(origin, direction, transformation=identity_matrix):
     transformation = invert(transformation)
     origin, direction = rays.apply(transformation, origin, direction)
     return intersect_fast(origin, direction)

@@ -1,5 +1,5 @@
 from pytracer import transformations
-from pytracer.transformations import identity
+from pytracer.transformations import identity_matrix
 from pytracer.tuples import point, vector
 import numpy as np
 from numpy.linalg import inv

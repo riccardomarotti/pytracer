@@ -2,7 +2,7 @@ import numpy as np
 import math
 
 
-def identity(x=None):
+def identity_matrix(x=None):
     return np.array([
         [1, 0, 0, 0],
         [0, 1, 0, 0],
@@ -81,12 +81,12 @@ def shearing(xy, xz, yx, yz, zx, zy):
 
 
 def invert(t):
-    T = t(identity())
+    T = t(identity_matrix())
     Tinv = np.linalg.inv(T)
     return lambda p: Tinv.dot(p)
 
 
 def transpose(t):
-    T = t(identity())
+    T = t(identity_matrix())
     Tt = np.transpose(T)
     return lambda p: Tt.dot(p)
