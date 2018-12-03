@@ -87,3 +87,17 @@ def test_hit_is_always_the_lowest_non_negative_intersection():
     i = xs.hit()
 
     assert(i is i4)
+
+
+def test_precompute_the_state_of_an_intersection():
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = Sphere()
+    i = Intersection(4, shape)
+
+    comps = i.prepare_computations(r)
+
+    assert(comps.t == i.t)
+    assert(comps.object is i.object)
+    assert(np.array_equal(point(0, 0, -1), comps.point))
+    assert(np.array_equal(vector(0, 0, -1), comps.eyev))
+    assert(np.array_equal(vector(0, 0, -1), comps.normalv))

@@ -15,6 +15,9 @@ class Intersection:
     def t(self):
         return self._t
 
+    def prepare_computations(self, ray):
+        return Computations(self, ray)
+
 
 class Intersections:
     def __init__(self, *intersections):
@@ -38,6 +41,35 @@ class Intersections:
                 hit_intersection = intersection
 
         return hit_intersection
+
+
+class Computations:
+    def __init__(self, intersection, ray):
+        self._t = intersection.t
+        self._object = intersection.object
+        self._point = ray.position(self._t)
+        self._eyev = -ray.direction
+        self._normalv = self._object.normal_at(self._point)
+
+    @property
+    def t(self):
+        return self._t
+
+    @property
+    def object(self):
+        return self._object
+
+    @property
+    def point(self):
+        return self._point
+
+    @property
+    def eyev(self):
+        return self._eyev
+
+    @property
+    def normalv(self):
+        return self._normalv
 
 
 @jit(['float32(float32)'])
