@@ -1,7 +1,7 @@
 import pytest
 from pytracer.materials import Material
 from pytracer.tuples import vector as vector, point
-from pytracer.lights import point_light as point_light
+from pytracer.lights import PointLight
 from pytracer.colors import color as color
 import numpy as np
 import math
@@ -24,7 +24,7 @@ def test_defaultmaterial(material):
 def test_lighting_with_the_eye_between_the_light_and_the_surface(material, position):
     eyev = vector(0, 0, -1)
     normalv = vector(0, 0, -1)
-    light = point_light(point(0, 0, -10), color(1, 1, 1))
+    light = PointLight(point(0, 0, -10), color(1, 1, 1))
 
     result = material.lighting(light, position, eyev, normalv)
 
@@ -34,7 +34,7 @@ def test_lighting_with_the_eye_between_the_light_and_the_surface(material, posit
 def test_lighting_with_the_eye_between_the_light_and_the_surface_and_wyw_offset_45_degrees(material, position):
     eyev = vector(0, math.sqrt(2)/2, -math.sqrt(2)/2)
     normalv = vector(0, 0, -1)
-    light = point_light(point(0, 0, -10), color(1, 1, 1))
+    light = PointLight(point(0, 0, -10), color(1, 1, 1))
 
     result = material.lighting(light, position, eyev, normalv)
 
@@ -44,7 +44,7 @@ def test_lighting_with_the_eye_between_the_light_and_the_surface_and_wyw_offset_
 def test_lighting_with_the_eye_opposite_surface_light_offest_45_degrees(material, position):
     eyev = vector(0, 0, -1)
     normalv = vector(0, 0, -1)
-    light = point_light(point(0, 10, -10), color(1, 1, 1))
+    light = PointLight(point(0, 10, -10), color(1, 1, 1))
 
     result = material.lighting(light, position, eyev, normalv)
 
@@ -54,7 +54,7 @@ def test_lighting_with_the_eye_opposite_surface_light_offest_45_degrees(material
 def test_lighting_with_the_eye_in_the_path_of_the_reflection_vector(material, position):
     eyev = vector(0, -math.sqrt(2)/2, -math.sqrt(2)/2)
     normalv = vector(0, 0, -1)
-    light = point_light(point(0, 10, -10), color(1, 1, 1))
+    light = PointLight(point(0, 10, -10), color(1, 1, 1))
 
     result = material.lighting(light, position, eyev, normalv)
 
@@ -64,7 +64,7 @@ def test_lighting_with_the_eye_in_the_path_of_the_reflection_vector(material, po
 def test_lighting_with_the_light_behind_the_surface(material, position):
     eyev = vector(0, 0, -1)
     normalv = vector(0, 0, -1)
-    light = point_light(point(0, 0, 10), color(1, 1, 1))
+    light = PointLight(point(0, 0, 10), color(1, 1, 1))
 
     result = material.lighting(light, position, eyev, normalv)
 

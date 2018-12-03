@@ -35,8 +35,8 @@ class Material:
         return self._shininess
 
     def lighting(self, light, point, eye_vector, normal_vector):
-        effective_color = self.color * lights.intensity(light)
-        light_vector = normalize(lights.position(light) - point)
+        effective_color = self.color * light.intensity
+        light_vector = normalize(light.position - point)
         amb = effective_color * self.ambient
         light_dot_normal = light_vector.dot(normal_vector)
         diff = colors.black()
@@ -49,7 +49,6 @@ class Material:
 
             if reflect_dot_eye > 0:
                 factor = math.pow(reflect_dot_eye, self.shininess)
-                spec = lights.intensity(
-                    light) * self.specular * factor
+                spec = light.intensity * self.specular * factor
 
         return amb + diff + spec

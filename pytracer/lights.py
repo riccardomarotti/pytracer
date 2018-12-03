@@ -1,13 +1,15 @@
 import numpy as np
 
 
-def point_light(position, intensity):
-    return np.array([position, intensity])
+class PointLight:
+    def __init__(self, position, intensity):
+        self._position = position
+        self._intensity = intensity
 
+    @property
+    def position(self):
+        return self._position
 
-def position(light):
-    return light[0]
-
-
-def intensity(light):
-    return light[1]
+    @property
+    def intensity(self):
+        return self._intensity
