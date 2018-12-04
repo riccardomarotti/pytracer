@@ -6,3 +6,5 @@ A [Ray Tracer](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)) based on Ja
 
 Still in early development... this image shows the current progress:
 ![](example.png?raw=true)
+
+I'm also working on a [Go version](https://github.com/riccardomarotti/ray-tracer).
