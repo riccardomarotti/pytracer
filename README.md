@@ -3,3 +3,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/riccardomarotti/pytracer/badge.svg?branch=master)](https://coveralls.io/github/riccardomarotti/pytracer?branch=master)
 
 A [Ray Tracer](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)) based on Jamis Buck's [book](https://pragprog.com/book/jbtracer/the-ray-tracer-challenge).
+
+Still in early development... this image shows the current progress:
+![](example.png?raw=true)
