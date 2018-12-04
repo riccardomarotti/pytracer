@@ -5,6 +5,8 @@ from pytracer.tuples import point, vector
 from pytracer.intersections import Intersection
 from pytracer.colors import color, black
 from pytracer.lights import PointLight
+from pytracer.spheres import Sphere
+from pytracer.transformations import translation
 
 
 def test_createing_a_world():
@@ -107,3 +109,16 @@ def test_there_is_no_shadow_when_an_object_is_behind_the_point():
     p = point(-2, 2, -2)
 
     assert(w.is_shadowed(p) == False)
+
+
+def test_shade_hit_is_given_an_intersection_in_shadow():
+    light = PointLight(point(0, 0, -10), color(1, 1, 1))
+    s1 = Sphere()
+    s2 = Sphere(transformation=translation(0, 0, 10))
+    w = World(light, s1, s2)
+    r = Ray(point(0, 0, 5), vector(0, 0, 1))
+    i = Intersection(4, s2)
+    comps = i.prepare_computations(r)
+    c = w.shade_hit(comps)
+
+    assert(np.allclose(color(0.1, 0.1, 0.1), c))

@@ -35,7 +35,8 @@ class World:
         return Intersections(*xs)
 
     def shade_hit(self, comps):
-        return comps.object.material.lighting(self.light, comps.point, comps.eyev, comps.normalv, False)
+        is_shadowed = self.is_shadowed(comps.point)
+        return comps.object.material.lighting(self.light, comps.point, comps.eyev, comps.normalv, is_shadowed)
 
     def color_at(self, ray):
         color = black

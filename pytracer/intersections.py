@@ -1,6 +1,8 @@
 import numpy as np
 from numba import jit
 
+EPSILON = 0.00001
+
 
 class Intersection:
     def __init__(self, t, object):
@@ -54,6 +56,7 @@ class Computations:
         self._inside = self.normalv.dot(self.eyev) < 0
         if self.inside:
             self._normalv = -self.normalv
+        self._point = self.point + self.normalv * EPSILON
 
     @property
     def t(self):

@@ -1,8 +1,8 @@
 from pytracer.spheres import Sphere
 from pytracer.rays import Ray
 from pytracer.tuples import point, vector
-from pytracer.intersections import Intersection, Intersections
-from pytracer.intersections import hit_fast
+from pytracer.intersections import Intersection, Intersections, hit_fast, EPSILON
+from pytracer.transformations import translation
 import numpy as np
 
 
@@ -98,9 +98,9 @@ def test_precompute_the_state_of_an_intersection():
 
     assert(comps.t == i.t)
     assert(comps.object is i.object)
-    assert(np.array_equal(point(0, 0, -1), comps.point))
-    assert(np.array_equal(vector(0, 0, -1), comps.eyev))
-    assert(np.array_equal(vector(0, 0, -1), comps.normalv))
+    assert(np.allclose(point(0, 0, -1), comps.point))
+    assert(np.allclose(vector(0, 0, -1), comps.eyev))
+    assert(np.allclose(vector(0, 0, -1), comps.normalv))
 
 
 def test_the_hit_when_an_intersection_occurs_on_the_outside():
@@ -120,7 +120,16 @@ def test_the_hit_when_an_intersection_occurs_on_the_inside():
 
     comps = i.prepare_computations(r)
 
-    assert(np.array_equal(point(0, 0, 1), comps.point))
-    assert(np.array_equal(vector(0, 0, -1), comps.eyev))
+    assert(np.allclose(point(0, 0, 1), comps.point))
+    assert(np.allclose(vector(0, 0, -1), comps.eyev))
     assert(comps.inside == True)
-    assert(np.array_equal(vector(0, 0, -1), comps.normalv))
+    assert(np.allclose(vector(0, 0, -1), comps.normalv))
+
+
+def test_hit_should_offset_the_point():
+    r = Ray(point(0, 0, -5), vector(0, 0, 1))
+    shape = Sphere(transformation=translation(0, 0, 1))
+    i = Intersection(5, shape)
+    comps = i.prepare_computations(r)
+
+    assert(comps.point[2] < -EPSILON/2)
