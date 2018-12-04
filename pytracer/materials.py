@@ -38,14 +38,14 @@ class Material:
     def shininess(self):
         return self._shininess
 
-    def lighting(self, light, point, eye_vector, normal_vector):
+    def lighting(self, light, point, eye_vector, normal_vector, in_shadow):
         effective_color = self.color * light.intensity
         light_vector = normalize(light.position - point)
         amb = effective_color * self.ambient
         light_dot_normal = light_vector.dot(normal_vector)
         diff = black
         spec = black
-        if light_dot_normal >= 0:
+        if light_dot_normal >= 0 and not in_shadow:
             diff = effective_color * self.diffuse * light_dot_normal
 
             reflect_vector = reflect(-light_vector, normal_vector)
