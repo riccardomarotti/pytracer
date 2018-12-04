@@ -3,6 +3,7 @@ from pytracer.tuples import point, normalize
 from pytracer.rays import Ray
 from pytracer.canvas import Canvas
 import math
+from numba import jit
 
 
 class Camera:
@@ -11,7 +12,7 @@ class Camera:
         self._vsize = vsize
         self._field_of_view = field_of_view
         if transform is None:
-            self._transform = identity_matrix
+            self._transform = identity_matrix()
         else:
             self._transform = transform
 
@@ -39,8 +40,8 @@ class Camera:
         world_y = self._half_height - yoffset
 
         inverse_camera_transform = invert(self._transform)
-        pixel = inverse_camera_transform(point(world_x, world_y, -1))
-        origin = inverse_camera_transform(point(0, 0, 0))
+        pixel = inverse_camera_transform.dot(point(world_x, world_y, -1))
+        origin = inverse_camera_transform.dot(point(0, 0, 0))
         direction = normalize(pixel - origin)
 
         return Ray(origin, direction)
@@ -55,3 +56,8 @@ class Camera:
                 image.write_pixel(x, y, color)
 
         return image
+
+
+@jit
+def render_fast(rays, colors, output):
+    pass

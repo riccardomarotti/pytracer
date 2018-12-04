@@ -1,7 +1,7 @@
 import math
 import numpy as np
 from pytracer.camera import Camera
-from pytracer.transformations import identity_matrix, rotation_y, translation, concat, view_transformation
+from pytracer.transformations import identity_matrix, rotation_y, translation, view_transformation
 from pytracer.tuples import point, vector
 from pytracer.world import default_world
 from pytracer.colors import color
@@ -17,7 +17,7 @@ def test_constructing_a_camera():
     assert(c._hsize == 160)
     assert(c._vsize == 120)
     assert(c._field_of_view == math.pi/2)
-    assert(np.array_equal(c._transform(identity_matrix()), identity_matrix()))
+    assert(np.array_equal(c._transform, identity_matrix()))
 
 
 def test_the_pixel_size_for_a_horizontal_canvas():
@@ -48,7 +48,7 @@ def test_constructing_a_ray_through_the_corner_of_the_canvas():
 
 def test_constructing_a_ray_when_the_camera_is_transformed():
     c = Camera(201, 101, math.pi/2,
-               transform=concat(rotation_y(math.pi/4), translation(0, -2, 5)))
+               transform=rotation_y(math.pi/4).dot(translation(0, -2, 5)))
     r = c.ray_for_pixel(100, 50)
 
     assert(np.allclose(point(0, 2, -5), r.origin))

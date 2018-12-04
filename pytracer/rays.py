@@ -19,7 +19,7 @@ class Ray:
         return position_fast(self.origin, self.direction, distance)
 
     def transform(self, transform):
-        return Ray(transform(self.origin), transform(self.direction))
+        return Ray(transform.dot(self.origin), transform.dot(self.direction))
 
 
 @jit

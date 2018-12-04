@@ -10,10 +10,10 @@ import numpy as np
 
 def test_identity_is_a_sphere_default_transformation():
     sphere = Sphere()
-    expected_transformation = transformations.identity_matrix
+    expected_transformation = transformations.identity_matrix()
     actual_transformation = sphere.transformation
 
-    assert(np.array_equal(expected_transformation(), actual_transformation()))
+    assert(np.array_equal(expected_transformation, actual_transformation))
 
 
 def test_a_ray_intersects_a_sphere_at_two_points():
@@ -115,7 +115,7 @@ def test_computing_the_normal_on_a_translated_sphere():
 def test_computing_the_normal_on_a_transformed_sphere():
     s = transformations.scaling(1, 0.5, 1)
     r = transformations.rotation_z(math.pi/5)
-    transform = transformations.concat(s, r)
+    transform = s.dot(r)
 
     sphere = Sphere(transform)
 

@@ -11,13 +11,15 @@ from numba import jit
 
 
 class Sphere:
-    def __init__(self, transformation=identity_matrix, material=None):
+    def __init__(self, transformation=None, material=None):
+        if transformation is None:
+            self._transformation = identity_matrix()
+        else:
+            self._transformation = transformation
         if material is None:
             self._material = Material()
         else:
             self._material = material
-
-        self._transformation = transformation
 
     @property
     def transformation(self):
@@ -29,9 +31,9 @@ class Sphere:
 
     def normal_at(self, p):
         transformation = invert(self.transformation)
-        object_point = transformation(p)
+        object_point = transformation.dot(p)
         object_normal = object_point - point(0, 0, 0)
-        world_normal = transpose(transformation)(object_normal)
+        world_normal = transpose(transformation).dot(object_normal)
         world_normal[3] = 0
         return normalize(world_normal)
 
