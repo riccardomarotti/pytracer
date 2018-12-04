@@ -5,6 +5,9 @@ from pytracer.spheres import Sphere
 from pytracer.materials import Material
 from pytracer.transformations import scaling
 from pytracer.intersections import Intersection, Intersections
+from pytracer.tuples import normalize
+from pytracer.rays import Ray
+import numpy as np
 
 
 class World:
@@ -44,6 +47,17 @@ class World:
             color = self.shade_hit(comps)
 
         return color
+
+    def is_shadowed(self, point):
+        v = self.light.position - point
+        distance = np.linalg.norm(v)
+        direction = normalize(v)
+
+        r = Ray(point, direction)
+        intersections = self.intersect(r)
+
+        h = intersections.hit()
+        return h is not None and h.t < distance
 
 
 def default_world():

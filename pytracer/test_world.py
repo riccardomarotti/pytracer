@@ -79,3 +79,31 @@ def test_the_color_with_an_intersection_behind_the_ray():
 
     c = w.color_at(r)
     assert(np.allclose(c, inner.material.color))
+
+
+def test_there_is_no_shadow_when_nothing_is_collinear_with_point_and_light():
+    w = default_world()
+    p = point(0, 10, 0)
+
+    assert(w.is_shadowed(p) == False)
+
+
+def test_the_shadow_when_an_object_is_between_the_point_and_the_light():
+    w = default_world()
+    p = point(10, -10, 10)
+
+    assert(w.is_shadowed(p))
+
+
+def test_there_is_no_shadow_when_an_object_is_behind_the_light():
+    w = default_world()
+    p = point(-20, 20, -20)
+
+    assert(w.is_shadowed(p) == False)
+
+
+def test_there_is_no_shadow_when_an_object_is_behind_the_point():
+    w = default_world()
+    p = point(-2, 2, -2)
+
+    assert(w.is_shadowed(p) == False)
